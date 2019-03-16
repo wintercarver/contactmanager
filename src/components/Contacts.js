@@ -1,35 +1,11 @@
 import React, { Component } from "react";
 import Contact from "./Contact";
+import { Consumer } from "../context";
 
 class Contacts extends Component {
-  constructor() {
-    super();
-
-    // FYI: This state definition inside a class
-    // doesn't need to occur inside the constructor
-    this.state = {
-      contacts: [
-        {
-          id: 1,
-          name: "John Doe",
-          email: "what@gmail.com",
-          phone: "555-555-5555"
-        },
-        {
-          id: 2,
-          name: "Jane Doe",
-          email: "the@gmail.com",
-          phone: "555-666-5555"
-        },
-        {
-          id: 3,
-          name: "Gotti Smalls",
-          email: "boss@gmail.com",
-          phone: "777-555-5555"
-        }
-      ]
-    };
-  }
+  // constructor() {
+  //   super();
+  // }
 
   deleteContact = id => {
     console.log("Contacts object", id);
@@ -42,18 +18,37 @@ class Contacts extends Component {
     });
   };
   render() {
-    const { contacts } = this.state;
     return (
-      <React.Fragment>
-        {contacts.map(contact => (
-          <Contact
-            key={contact.id}
-            contact={contact}
-            deleteClickHandler={this.deleteContact.bind(this, contact.id)}
-          />
-        ))}
-      </React.Fragment>
+      <Consumer>
+        {value => {
+          const { contacts } = value;
+          return (
+            <React.Fragment>
+              {contacts.map(contact => (
+                <Contact
+                  key={contact.id}
+                  contact={contact}
+                  deleteClickHandler={this.deleteContact.bind(this, contact.id)}
+                />
+              ))}
+            </React.Fragment>
+          );
+        }}
+      </Consumer>
     );
+
+    // const { contacts } = this.state;
+    // return (
+    //   <React.Fragment>
+    //     {contacts.map(contact => (
+    //       <Contact
+    //         key={contact.id}
+    //         contact={contact}
+    //         deleteClickHandler={this.deleteContact.bind(this, contact.id)}
+    //       />
+    //     ))}
+    //   </React.Fragment>
+    // );
   }
 }
 
