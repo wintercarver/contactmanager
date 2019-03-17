@@ -32,12 +32,16 @@ class AddContact extends Component {
       return;
     }
 
+    // Clear state
     const newContact = {
       id: uuid(),
       name,
       email,
       phone
     };
+
+    // Redirect
+    this.props.history.push("/");
 
     dispatch({ type: "ADD_CONTACT", payload: newContact });
 
