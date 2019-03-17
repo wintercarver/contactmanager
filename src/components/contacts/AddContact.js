@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Consumer } from "../../context";
 import TextInputGroup from "../layout/TextInputGroup";
 import uuid from "uuid";
+import axios from "axios";
 
 class AddContact extends Component {
   // When you create a form each part will be part of the state
@@ -34,16 +35,17 @@ class AddContact extends Component {
 
     // Clear state
     const newContact = {
-      id: uuid(),
       name,
       email,
       phone
     };
 
+    axios
+      .post("https://jsonplaceholder.typicode.com/users", newContact)
+      .then(res => dispatch({ type: "ADD_CONTACT", payload: res.data }));
+
     // Redirect
     this.props.history.push("/");
-
-    dispatch({ type: "ADD_CONTACT", payload: newContact });
 
     // Clear state
     this.setState({
