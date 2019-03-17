@@ -16,10 +16,17 @@ class Contact extends Component {
     showContactInfo: true
   };
 
-  onDeleteClick = (id, dispatch) => {
-    axios
-      .delete(`https://jsonplaceholder.typicode.com/users/${id}`)
-      .then(res => dispatch({ type: "DELETE_CONTACT", payload: id }));
+  onDeleteClick = async (id, dispatch) => {
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
+      //.then(res => dispatch({ type: "DELETE_CONTACT", payload: id }));
+
+      dispatch({ type: "DELETE_CONTACT", payload: id });
+      console.log("A-OK delete", id);
+    } catch (e) {
+      dispatch({ type: "DELETE_CONTACT", payload: id });
+      console.log("Fail but delete", id);
+    }
   };
 
   render() {
